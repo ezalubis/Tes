@@ -1,0 +1,448 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Contract SIMS PPOB",
+    "description": "Documentation for Take Home Test API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Module Membership"
+    },
+    {
+      "name": "Module Information"
+    },
+    {
+      "name": "Module Transaction"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Module Membership"],
+        "description": "This can only be done by the logged in user.",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "first_name", "last_name"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Request Succesfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Module Membership"],
+        "description": "User login by email and password",
+        "requestBody": {
+          "description": "User's login credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully"
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["Module Membership"],
+        "description": "Returns profile of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Profile fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sukses"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/profile/update": {
+      "put": {
+        "tags": ["Module Membership"],
+        "description": "Allows a user to update their profile information, including uploading a profile image.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["first_name", "last_name"],
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/profile/image": {
+      "put": {
+        "tags": ["Module Membership"],
+        "description": "Allows a user to update their profile information, including uploading a profile image.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile_image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/banner": {
+      "get": {
+        "tags": ["Module Information"],
+        "description": "Returns profile of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Profile fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sukses"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": ["Module Information"],
+        "description": "Returns profile of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Profile fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sukses"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/balance": {
+      "get": {
+        "tags": ["Module Transaction"],
+        "description": "Returns profile of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Profile fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sukses"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/topup": {
+      "post": {
+        "tags": ["Module Transaction"],
+        "description": "Allows a user to update their profile information, including uploading a profile image.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request Succesfully"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transaction": {
+      "post": {
+        "tags": ["Module Transaction"],
+        "description": "Allows users to pay their bills.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["service_code", "amount"],
+                "properties": {
+                  "service_code": {
+                    "type": "string",
+                    "description": "The unique code for the service being paid for."
+                  },
+                  "amount": {
+                    "type": "number",
+                    "description": "The amount to be paid."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Payment successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transaction_id": {
+                          "type": "string",
+                          "example": "TX1234567890"
+                        },
+                        "service_name": {
+                          "type": "string",
+                          "example": "PLN Prepaid"
+                        },
+                        "amount_paid": {
+                          "type": "number",
+                          "example": 100000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transaction/history": {
+      "get": {
+        "tags": ["Module Transaction"],
+        "description": "Returns profile of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Profile fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sukses"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
